@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Stroke Counter v1</string>
+
+    <string name="select_bt_device">Select BT device</string>
+    <string name="selected_device_label">Selected device:&#160;</string>
+    <string name="start_button_label">Start</string>
+    <string name="stop_button_label">Stop</string>
+    <string name="reset_button_label">Reset</string>
+    <string name="connect_button_label">Connect</string>
+    <string name="bt_connected">CONN. OK</string>
+    <string name="bt_connecting">Connecting&#8230;</string>
+    <string name="bt_not_connected">NO CONN.</string>
+    <string name="bt_not_enabled">BT is not enabled</string>
+    <string name="time">TIME&#160;</string>
+    <string name="average">AVG&#160;</string>
+    <string name="per_min">/min</string>
+
+    <string name="about_title">About</string>
+    <string name="about_text">Made by Mikko L 2015</string>
+
+</resources>
