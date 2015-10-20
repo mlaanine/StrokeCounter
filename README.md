@@ -7,8 +7,7 @@ is strapped to the paddle shaft using a 3D printed block and a waterproof bag.
 
 As it is, the app shows stroke count, elapsed time and average cadence.
 
-#todo: explore using the MPU-6050's FIFO buffer to read in bursts and put the Arduino to POWER_SAVE in the
-meantime - this should save some more power.
-#todo: waterproof mechanics.
+Next steps - Explore using the MPU-6050's FIFO buffer to read in bursts and put the Arduino to POWER_SAVE in the
+meantime - this should save some more power.  Waterproof mechanics.
 
 -Mikko L 10/2015
