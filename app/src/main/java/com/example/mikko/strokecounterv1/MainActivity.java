@@ -47,6 +47,10 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
     protected ArrayList<String> pairedDeviceAddresses = new ArrayList<>();
     protected int selectedBtDeviceIndex;
     private BluetoothService mBtService = null;
+    // Serial commands for the Arduino
+    protected static final int CMD_START = 0x53; // "S"
+    protected static final int CMD_STOP = 0x73;  // "s"
+    protected static final int CMD_RESET = 0x72; // "r"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,10 +162,11 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
     }
 
     public void onStartClickHandler(View view){
-        byte[] command = {0x73}; // "s" for Start/Stop
+        byte[] commandStart = {CMD_START};
+        byte[] commandStop = {CMD_STOP};
         if(!counterIsRunning){
             counterIsRunning = true;
-            mBtService.write(command);
+            mBtService.write(commandStart);
             startButton.setText(R.string.stop_button_label);
             startButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_stop_white_36dp, 0, 0, 0);
             // (Re)start the timer
@@ -170,7 +175,7 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
         }
         else{
             counterIsRunning = false;
-            mBtService.write(command);
+            mBtService.write(commandStop);
             // Store the elapsed time and stop the timer
             timeCountValue = SystemClock.elapsedRealtime() - timeCount.getBase();
             timeCount.stop();
@@ -180,8 +185,8 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
     }
 
     public void onResetClickHandler(View view){
-        byte[] command = {0x72}; // "r" for Reset
-        mBtService.write(command);
+        byte[] commandReset = {CMD_RESET};
+        mBtService.write(commandReset);
         // Reset the count and timer
         strokeCountValue = 0;
         timeCount.setBase(SystemClock.elapsedRealtime());
@@ -233,9 +238,9 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
                         case BluetoothService.STATE_CONNECTED:
                             connectState.setText(R.string.bt_connected);
                             connectButton.setEnabled(false);
-                            // The Arduino starts with the counter enabled, stop & reset it here
-                            mBtService.write(new byte[] {0x72});  // "r"
-                            mBtService.write(new byte[] {0x73});  // "s"
+                            // The Arduino may or may not have the counter enabled, stop & reset it here
+                            mBtService.write(new byte[] {CMD_RESET});  // "r"
+                            mBtService.write(new byte[] {CMD_STOP});  // "s"
                             break;
                         case BluetoothService.STATE_CONNECTING:
                             connectState.setText(R.string.bt_connecting);
