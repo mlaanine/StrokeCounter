@@ -185,10 +185,10 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
     }
 
     public void onResetClickHandler(View view){
-        byte[] commandReset = {CMD_RESET};
-        mBtService.write(commandReset);
+        mBtService.write(new byte[] {CMD_RESET});
         // Reset the count and timer
         strokeCountValue = 0;
+        averageCountValue = 0;
         timeCount.setBase(SystemClock.elapsedRealtime());
         timeCountValue = 0;
     }
@@ -269,7 +269,8 @@ public class MainActivity extends Activity implements SelectBtDeviceDialog.Selec
                         counterIsRunning = false;
                     }
                     else if (readMessage.equals("RESET")) {
-                        strokeCount.setText("0");
+                        strokeCount.setText(String.format("%d", strokeCountValue));
+                        averageCount.setText(String.format("%.0f", averageCountValue));
                     }
                     else{
                         try{
